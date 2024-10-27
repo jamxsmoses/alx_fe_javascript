@@ -16,17 +16,41 @@ const text = [
     category: "Bernard M. Baruch",
   },
 ];
+
 const displayQuote = document.getElementById("quoteDisplay");
 const btn = document.getElementById("newQuote");
-const newQuoteText = document.getElementById("newQuoteText");
-const newQuoteCategory = document.getElementById("newQuoteCategory");
 
 function showRandomQuote() {
-  const randomNum = Math.floor(Math.random() * quotes.length);
-  displayQuote.innerHTML = quotes[randomNum].quote;
+  const randomNum = Math.floor(Math.random() * text.length);
+  displayQuote.innerHTML = text[randomNum].quote;
 }
 
 btn.addEventListener("click", showRandomQuote);
+
+function createAddQuoteForm() {
+  const newDiv = document.createElement("div");
+  const newQuoteEl = document.createElement("input");
+  const newCategoryEl = document.createElement("input");
+  const newBtnEl = document.createElement("button");
+
+  newQuoteEl.type = "text";
+  newQuoteEl.id = "newQuoteText";
+  newQuoteEl.placeholder = "Enter a new quote";
+
+  newCategoryEl.type = "text";
+  newCategoryEl.id = "newQuoteCategory";
+  newCategoryEl.placeholder = "Enter quote category";
+
+  newBtnEl.innerHTML = "Add Quote";
+  newBtnEl.addEventListener("click", addQuote);
+
+  newDiv.appendChild(newQuoteEl);
+  newDiv.appendChild(newCategoryEl);
+  newDiv.appendChild(newBtnEl);
+  document.body.appendChild(newDiv);
+}
+
+createAddQuoteForm();
 
 function addQuote() {
   const quoteDetails = {};
@@ -37,8 +61,7 @@ function addQuote() {
     quoteDetails.quote = newQuoteText.value;
     quoteDetails.category = newQuoteCategory.value;
 
-    quotes.push(quoteDetails);
-    console.log(quotes);
+    text.push(quoteDetails);
 
     newQuoteText.value = "";
     newQuoteCategory.value = "";
