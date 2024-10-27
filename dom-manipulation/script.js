@@ -107,10 +107,6 @@ function addQuote() {
 // console.log(localStorage);
 
 const a = document.createElement("a");
-const exportBtn = document.createElement("button");
-exportBtn.innerHTML = "Export Quotes";
-// exportBtn.appendChild(a);
-document.body.appendChild(exportBtn);
 
 const quotes = localStorage.getItem("text");
 console.log(quotes);
