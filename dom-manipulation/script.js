@@ -107,21 +107,17 @@ function addQuote() {
 // console.log(localStorage);
 
 const a = document.createElement("a");
-a.innerHTML = "Download Quotes";
+const exportBtn = document.createElement("button");
+exportBtn.innerHTML = "Export Quotes";
+a.appendChild(exportBtn);
 document.body.appendChild(a);
-a.style.border = "1px solid black";
-a.style.padding = "5px";
-a.style.cursor = "pointer";
-a.style.display = "inline-block";
-a.style.marginTop = "5px";
-a.style.boxSizing = "border-box";
-a.style.color = "black";
-a.style.textDecoration = "none";
 
-const quotes = localStorage.getItem("text");
-console.log(quotes);
-const blob = new Blob([quotes], { type: "text/csv" });
+function exportToJsonFile() {
+  const quotes = localStorage.getItem("text");
+  console.log(quotes);
+  const blob = new Blob([quotes], { type: "text/csv" });
 
-const url = URL.createObjectURL(blob);
-a.href = url;
-a.download = "My-Quotes.json";
+  const url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = "My-Quotes.json";
+}
