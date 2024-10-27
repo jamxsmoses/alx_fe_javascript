@@ -6,7 +6,7 @@ const newQuoteCategory = document.getElementById("newQuoteCategory");
 
 function showRandomQuote() {
   const randomNum = Math.floor(Math.random() * quotes.length);
-  displayQuote.textContent = quotes[randomNum].quote;
+  displayQuote.innerHTML = quotes[randomNum].quote;
 }
 
 btn.addEventListener("click", showRandomQuote);
