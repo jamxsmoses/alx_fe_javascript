@@ -20,9 +20,41 @@ const text = [
 const displayQuote = document.getElementById("quoteDisplay");
 const btn = document.getElementById("newQuote");
 
+function textToLocalStorage() {
+  localStorage.setItem("text", JSON.stringify(text));
+}
+
+textToLocalStorage();
+
+const sesStorage = JSON.parse(sessionStorage.getItem("lastViewed"));
+
+function loadSesStorage() {
+  if (sesStorage === null) {
+    displayQuote.innerHTML = "You haven't viewed any quotes.";
+  } else {
+    displayQuote.innerHTML = sesStorage;
+  }
+}
+
+const lastQuoteBtn = document.createElement("button");
+lastQuoteBtn.innerHTML = "Last Viewed Quote";
+
+document.body.appendChild(lastQuoteBtn);
+
+lastQuoteBtn.addEventListener("click", loadSesStorage);
+
 function showRandomQuote() {
-  const randomNum = Math.floor(Math.random() * text.length);
-  displayQuote.innerHTML = text[randomNum].quote;
+  const quotes = JSON.parse(localStorage.getItem("text"));
+  //   console.log(quotes);
+  const randomNum = Math.floor(Math.random() * quotes.length);
+  displayQuote.innerHTML = quotes[randomNum].quote;
+
+  function lastViewedQuote() {
+    const lastViewed = (displayQuote.innerHTML = quotes[randomNum].quote);
+    sessionStorage.setItem("lastViewed", JSON.stringify(lastViewed));
+  }
+
+  lastViewedQuote();
 }
 
 btn.addEventListener("click", showRandomQuote);
@@ -50,6 +82,8 @@ function createAddQuoteForm() {
   document.body.appendChild(newDiv);
 }
 
+// localStorage.clear();
+
 createAddQuoteForm();
 
 function addQuote() {
@@ -62,9 +96,32 @@ function addQuote() {
     quoteDetails.category = newQuoteCategory.value;
 
     text.push(quoteDetails);
+    textToLocalStorage();
 
     newQuoteText.value = "";
     newQuoteCategory.value = "";
     showRandomQuote();
   }
 }
+
+// console.log(localStorage);
+
+const a = document.createElement("a");
+a.innerHTML = "Download Quotes";
+document.body.appendChild(a);
+a.style.border = "1px solid black";
+a.style.padding = "5px";
+a.style.cursor = "pointer";
+a.style.display = "inline-block";
+a.style.marginTop = "5px";
+a.style.boxSizing = "border-box";
+a.style.color = "black";
+a.style.textDecoration = "none";
+
+const quotes = localStorage.getItem("text");
+console.log(quotes);
+const blob = new Blob([quotes], { type: "text/csv" });
+
+const url = URL.createObjectURL(blob);
+a.href = url;
+a.download = "My-Quotes.json";
