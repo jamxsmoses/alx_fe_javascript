@@ -1,19 +1,19 @@
 const text = [
   {
     quote: `I'm selfish, impatient and a little insecure. I make mistakes, I am out of control and at times hard to handle. But if you can't handle me at my worst, then you sure as hell don't deserve me at my best.`,
-    category: "Marilyn Monroe",
+    category: "Inspirational",
   },
   {
     quote: "So many books, so little time.",
-    category: "Frank Zappa",
+    category: "Funny",
   },
   {
     quote: `Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.`,
-    category: "Albert Einstein",
+    category: "Inspirational",
   },
   {
     quote: `Be who you are and say what you feel, because those who mind don't matter, and those who matter don't mind.`,
-    category: "Bernard M. Baruch",
+    category: "Motivation",
   },
 ];
 
@@ -22,6 +22,8 @@ const btn = document.getElementById("newQuote");
 
 function saveQuotes() {
   localStorage.setItem("text", JSON.stringify(text));
+
+  console.log(JSON.parse(localStorage.getItem("text")));
 }
 
 saveQuotes();
@@ -84,6 +86,29 @@ function createAddQuoteForm() {
 createAddQuoteForm();
 
 document.body.appendChild(lastQuoteBtn);
+const selectEl = document.getElementById("categoryFilter");
+
+function populateCategories() {
+  const categoryArr = [];
+  for (i = 0; i < text.length; i++) {
+    if (!categoryArr.includes(text[i].category)) {
+      categoryArr.push(text[i].category);
+    }
+  }
+
+  console.log(categoryArr);
+
+  categoryArr.map((cat) => {
+    const option = document.createElement("option");
+    if (!selectEl.querySelector(option[(value = `${cat}`)])) {
+      option.value = cat;
+      option.textContent = cat;
+      selectEl.appendChild(option);
+    }
+  });
+}
+
+console.log(JSON.parse(localStorage.getItem("text")));
 
 function addQuote() {
   const quoteDetails = {};
@@ -100,6 +125,7 @@ function addQuote() {
     newQuoteText.value = "";
     newQuoteCategory.value = "";
     showRandomQuote();
+    populateCategories();
   }
 }
 
@@ -133,3 +159,7 @@ function importFromJsonFile(event) {
   };
   fileReader.readAsText(event.target.files[0]);
 }
+
+populateCategories();
+// localStorage.clear();
+// sessionStorage.clear();
