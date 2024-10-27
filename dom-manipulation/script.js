@@ -105,15 +105,20 @@ function addQuote() {
 }
 
 // console.log(localStorage);
+const exportBtn = document.getElementById("exportBtn");
 
-const a = document.createElement("a");
+function exportToJsonFile() {
+  const a = document.createElement("a");
+  const quotes = localStorage.getItem("text");
+  const blob = new Blob([quotes], { type: "application/json" });
 
-const quotes = localStorage.getItem("text");
-console.log(quotes);
-const blob = new Blob([quotes], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = "My-Quotes.json";
 
-const url = URL.createObjectURL(blob);
-a.href = url;
-a.download = "My-Quotes.json";
+  a.click();
 
-function exportToJsonFile() {}
+  a.remove();
+}
+
+exportBtn.addEventListener("click", exportToJsonFile);
