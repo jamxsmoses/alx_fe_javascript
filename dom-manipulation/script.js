@@ -163,3 +163,14 @@ function importFromJsonFile(event) {
 populateCategories();
 // localStorage.clear();
 // sessionStorage.clear();
+
+function filterQuotes() {
+  const selectedCategory = selectEl.value;
+  const filteredQuotes = text.filter((quote) => {
+    selectedCategory === "All Categories"
+      ? true
+      : quote.category === selectedCategory;
+  });
+}
+
+filterQuotes();
