@@ -20,11 +20,11 @@ const text = [
 const displayQuote = document.getElementById("quoteDisplay");
 const btn = document.getElementById("newQuote");
 
-function textToLocalStorage() {
+function saveQuotes() {
   localStorage.setItem("text", JSON.stringify(text));
 }
 
-textToLocalStorage();
+saveQuotes();
 
 const sesStorage = JSON.parse(sessionStorage.getItem("lastViewed"));
 
@@ -38,8 +38,7 @@ function loadSesStorage() {
 
 const lastQuoteBtn = document.createElement("button");
 lastQuoteBtn.innerHTML = "Last Viewed Quote";
-
-document.body.appendChild(lastQuoteBtn);
+lastQuoteBtn.style.width = "150px";
 
 lastQuoteBtn.addEventListener("click", loadSesStorage);
 
@@ -82,9 +81,9 @@ function createAddQuoteForm() {
   document.body.appendChild(newDiv);
 }
 
-// localStorage.clear();
-
 createAddQuoteForm();
+
+document.body.appendChild(lastQuoteBtn);
 
 function addQuote() {
   const quoteDetails = {};
@@ -96,7 +95,7 @@ function addQuote() {
     quoteDetails.category = newQuoteCategory.value;
 
     text.push(quoteDetails);
-    textToLocalStorage();
+    saveQuotes();
 
     newQuoteText.value = "";
     newQuoteCategory.value = "";
@@ -122,3 +121,15 @@ function exportToJsonFile() {
 }
 
 exportBtn.addEventListener("click", exportToJsonFile);
+const importBtn = document.getElementById("importFile");
+
+function importFromJsonFile(event) {
+  const fileReader = new FileReader();
+  fileReader.onload = function (event) {
+    const importedQuotes = JSON.parse(event.target.result);
+    text.push(...importedQuotes);
+    saveQuotes();
+    alert("Quotes imported successfully!");
+  };
+  fileReader.readAsText(event.target.files[0]);
+}
